@@ -1,16 +1,15 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
-)
+	"douyin/dao"
 
-var db gorm.DB
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 	// 1.创建路由
 	r := gin.Default()
 	initRouter(r)
-	InitDB(db)
+	dao.InitDB()
 	r.Run(":8080")
 }

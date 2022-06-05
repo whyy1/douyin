@@ -7,7 +7,3 @@ type Comment struct {
 	CreateDate string `json:"create_date,omitempty"`
 	VideoId    int64  //`gorm:"not null" gorm:"foreignkey:VideorId"`
 }
-type Response struct {
-	StatusCode int32  `json:"status_code"`
-	StatusMsg  string `json:"status_msg,omitempty"`
-}

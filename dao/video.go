@@ -13,7 +13,3 @@ type Video struct {
 	Titile        string   `json:"title,omitempty"`
 	CreateDate    int64    `gorm:"autoCreateTime"`
 }
-type Response struct {
-	StatusCode int32  `json:"status_code"`
-	StatusMsg  string `json:"status_msg,omitempty"`
-}
