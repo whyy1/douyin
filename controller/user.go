@@ -10,18 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type UserLoginResponse struct {
-	Response
-	UserId int64  `json:"user_id,omitempty"`
-	Token  string `json:"token"`
-}
-
-type UserResponse struct {
-	Response
-	User   User   `json:"user"`
-	Avatar string `json:"avatar"`
-}
-
 //注册用户
 func Register(c *gin.Context) {
 	//接收前端参数信息
@@ -46,7 +34,7 @@ func Login(c *gin.Context) {
 		UserPassword: c.Query("password"),
 	}
 	//先判断用户登录密码是否正确
-	if user, err := service.Login(&user); err == nil {
+	if user, err := service.LoginUser(&user); err == nil {
 		service.ToLoginResponse(c, service.ResponseOK("用户登录成功"), user.UserId, user.Token)
 
 	} else {
@@ -62,7 +50,7 @@ func UserInfo(c *gin.Context) {
 		UserId: userid,
 	}
 
-	if user, err := service.Get(&user); err == nil {
+	if user, err := service.GetUser(&user); err == nil {
 		service.ToUserResponse(c, service.ResponseOK("用户登录成功"), user)
 
 	} else {

@@ -47,7 +47,7 @@ func RegisterUser(param *User) (*dao.User, error) {
 	return user, err
 }
 
-func Login(param *User) (*dao.User, error) {
+func LoginUser(param *User) (*dao.User, error) {
 	user, err := dao.Login(&dao.User{
 		UserName:     param.UserName,
 		UserPassword: param.UserPassword,
@@ -57,12 +57,18 @@ func Login(param *User) (*dao.User, error) {
 	return user, err
 }
 
-func Get(param *User) (*dao.User, error) {
+func GetUser(param *User) (*dao.User, error) {
 	user, err := dao.UserInfo(&dao.User{
 		UserId: param.UserId,
 	})
 
 	return user, err
+}
+func GetUserId(token string) (int64, error) {
+	user, err := dao.UserId(&dao.User{
+		Token: token,
+	})
+	return user.UserId, err
 }
 
 func ToLoginResponse(ctx *gin.Context, response Response, user_id int64, token string) {
