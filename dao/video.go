@@ -1,5 +1,13 @@
 package dao
 
+import (
+	"douyin/config"
+	"fmt"
+	"os"
+
+	"github.com/aliyun/aliyun-oss-go-sdk/oss"
+)
+
 type Video struct {
 	VideoId       int64    `json:"id,omitempty"`
 	Author        User     `json:"author" gorm:"foreignKey:UserId;references:UserId;"`
@@ -28,7 +36,12 @@ func newvideo(param *Video) Video {
 		Titile:        param.Titile,
 		CreateDate:    param.CreateDate,
 	}
-	return user
+	return video
+}
+func PublishVideo(param *Video) (Video, error) {
+	video := newvideo(param)
+	err := db.Create(&video).Error
+	return video, err
 }
 func GetVideoList() []Video {
 	videos := []Video{}
@@ -53,4 +66,21 @@ func PublishList(userid int64) []Video {
 	publishlist := []Video{}
 	db.Debug().Preload("Author").Where("user_id =?", userid).Find(&publishlist)
 	return publishlist
+}
+
+func NewBucket() *oss.Bucket {
+	// 创建OSSClient实例。
+	client, err := oss.New(config.Conf.Endpoint, config.Conf.AccessKeyID, config.Conf.AccessKeySecret)
+	if err != nil {
+		fmt.Println("Error:", err)
+		os.Exit(-1)
+	}
+
+	// 填写存储空间名称
+	bucket, err := client.Bucket(config.Conf.Bucket)
+	if err != nil {
+		fmt.Println("Error:", err)
+		os.Exit(-1)
+	}
+	return bucket
 }

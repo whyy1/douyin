@@ -11,5 +11,5 @@ func main() {
 	r := gin.Default()
 	initRouter(r)
 	dao.InitDB()
-	r.Run(":8080")
+	r.Run()
 }
