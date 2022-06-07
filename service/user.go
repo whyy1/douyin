@@ -25,7 +25,7 @@ type UserLoginResponse struct {
 }
 type UserResponse struct {
 	Response
-	*dao.User `json:"user"`
+	dao.User `json:"user"`
 }
 
 func RegisterUser(param *User) (*dao.User, error) {
@@ -57,17 +57,15 @@ func LoginUser(param *User) (*dao.User, error) {
 	return user, err
 }
 
-func GetUser(param *User) (*dao.User, error) {
-	user, err := dao.UserInfo(&dao.User{
-		UserId: param.UserId,
-	})
-
+//传入用户ID返回用户信息
+func GetUser(userid int64) (dao.User, error) {
+	user, err := dao.UserInfo(userid)
 	return user, err
 }
+
+//传入token返回用户id
 func GetUserId(token string) (int64, error) {
-	user, err := dao.UserId(&dao.User{
-		Token: token,
-	})
+	user, err := dao.UserId(token)
 	return user.UserId, err
 }
 
@@ -79,7 +77,7 @@ func ToLoginResponse(ctx *gin.Context, response Response, user_id int64, token s
 	}
 	ctx.JSON(http.StatusOK, loginresponse)
 }
-func ToUserResponse(ctx *gin.Context, response Response, user *dao.User) {
+func ToUserResponse(ctx *gin.Context, response Response, user dao.User) {
 	loginresponse := UserResponse{
 		Response: response,
 		User:     user,

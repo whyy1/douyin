@@ -75,7 +75,6 @@ func NewBucket() *oss.Bucket {
 		fmt.Println("Error:", err)
 		os.Exit(-1)
 	}
-
 	// 填写存储空间名称
 	bucket, err := client.Bucket(config.Conf.Bucket)
 	if err != nil {
@@ -83,4 +82,26 @@ func NewBucket() *oss.Bucket {
 		os.Exit(-1)
 	}
 	return bucket
+}
+
+//增加视频评论数
+func AddComments(videoid int64) error {
+	video := Video{}
+
+	if err := db.Debug().First(&video, "video_id=?", videoid).Update("comment_count", video.CommentCount+1).Error; err != nil {
+		fmt.Println("评论数增加失败", err)
+		return err
+	}
+	return nil
+}
+
+//减少视频评论数
+func DeductComments(videoid int64) error {
+	video := Video{}
+
+	if err := db.Debug().First(&video, "video_id=?", videoid).Update("comment_count", video.CommentCount-1).Error; err != nil {
+		fmt.Println("评论数减少失败", err)
+		return err
+	}
+	return nil
 }

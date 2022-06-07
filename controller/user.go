@@ -46,11 +46,8 @@ func Login(c *gin.Context) {
 func UserInfo(c *gin.Context) {
 
 	userid, _ := strconv.ParseInt(c.Query("user_id"), 10, 64)
-	user := service.User{
-		UserId: userid,
-	}
 
-	if user, err := service.GetUser(&user); err == nil {
+	if user, err := service.GetUser(userid); err == nil {
 		service.ToUserResponse(c, service.ResponseOK("用户登录成功"), user)
 
 	} else {

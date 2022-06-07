@@ -22,9 +22,7 @@ type aliyunOss struct {
 }
 
 //阿里云OSS配置参数
-
 func init() {
-	file, _ := os.ReadFile("./ocnfig/config.json")
-
+	file, _ := os.ReadFile("./config/config.json")
 	_ = json.Unmarshal(file, &Conf)
 }

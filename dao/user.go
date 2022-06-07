@@ -45,6 +45,7 @@ func Find(param *User) (*User, error) {
 	err := db.Debug().First(&user, "user_name =?", user.UserName).Error
 	return &user, err
 }
+
 func Login(param *User) (*User, error) {
 	user := newUser(param)
 	err := db.Debug().Where("user_name = ? AND user_password = ?", user.UserName, user.UserPassword).First(&user).Error
@@ -52,13 +53,15 @@ func Login(param *User) (*User, error) {
 	db.Debug().First(&user, "user_id = ?", user.UserId).Updates(User{Token: token})
 	return &user, err
 }
-func UserInfo(param *User) (*User, error) {
-	user := newUser(param)
-	err := db.Debug().First(&user, "user_id =?", user.UserId).Error
-	return &user, err
+
+func UserInfo(userid int64) (User, error) {
+	user := User{}
+	err := db.Debug().First(&user, "user_id =?", userid).Error
+	return user, err
 }
-func UserId(param *User) (*User, error) {
-	user := newUser(param)
-	err := db.Debug().First(&user, "token =?", user.Token).Error
+
+func UserId(token string) (*User, error) {
+	user := User{}
+	err := db.Debug().First(&user, "token =?", token).Error
 	return &user, err
 }

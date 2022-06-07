@@ -19,7 +19,6 @@ func GetVideoList(c *gin.Context, userid int64) []dao.Video {
 	favorites := dao.VideoFavorite(userid)
 	follow := dao.Videofollow(userid)
 	for i := range videos {
-		videos[i].PlayUrl = "http://" + c.Request.Host + videos[i].PlayUrl
 		for _, j := range favorites {
 			if videos[i].UserId == j {
 				videos[i].IsFavorite = true

@@ -24,11 +24,9 @@ func Publish(c *gin.Context) {
 		return
 	}
 
-	service.PublishVideo(data, userid)
-
 	//传递参数写数据库增加video数据
-	playurl := fmt.Sprintf("/static/%v", 1)
-	if _, err := service.SaveVideo(userid, playurl, title); err != nil {
+	playurl, coverurl, _ := service.PublishVideo(data, userid)
+	if _, err := service.SaveVideo(userid, playurl, coverurl, title); err != nil {
 		panic("视频存入数据库失败" + err.Error())
 	}
 	service.ToResponse(c, service.ResponseOK(" 视频上传成功"))

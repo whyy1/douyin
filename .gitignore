@@ -1,3 +1,4 @@
 /public/
+/config/
 .vscode/
-/config/config.json
+/config/
