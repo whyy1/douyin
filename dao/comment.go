@@ -7,11 +7,11 @@ import (
 
 type Comment struct {
 	Id         int64  `json:"id,omitempty"`
-	User       User   `json:"user" gorm:"foreignkey:UserId"`
+	VideoId    int64  //`gorm:"not null" gorm:"foreignkey:VideorId"`
+	UserId     int64  `gorm:"not null"`
 	Content    string `json:"content,omitempty"`
 	CreateDate string `json:"create_date,omitempty"`
-	UserId     int64  `gorm:"not null"`
-	VideoId    int64  //`gorm:"not null" gorm:"foreignkey:VideorId"`
+	User       User   `json:"user" gorm:"foreignkey:UserId"`
 }
 
 func AddComment(text string, user User, userid int64, videoid int64) (Comment, error) {
@@ -32,7 +32,7 @@ func AddComment(text string, user User, userid int64, videoid int64) (Comment, e
 
 func DeleteComment(commentid int64) error {
 	//删除Comment表中评论
-	if err := db.Debug().Where("comment_id =?", commentid).Delete(&Comment{}).Error; err != nil {
+	if err := db.Debug().Where("id =?", commentid).Delete(&Comment{}).Error; err != nil {
 		fmt.Println("评论删除失败", err)
 		return err
 	}

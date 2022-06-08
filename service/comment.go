@@ -22,14 +22,14 @@ func Comment(ctx *gin.Context, commentid int64, actionType string, text string, 
 		//对Comment表插入评论
 		comment, _ := dao.AddComment(text, user, userid, videoid)
 		//增加对应的Videos的评论数
-		dao.AddComments(videoid)
+		dao.AddCommentCount(videoid)
 
 		ToCommentActionResponse(ctx, comment)
 	} else if actionType == "2" {
 		//删除Comment表中评论
 		dao.DeleteComment(commentid)
 		//减少对应的Videos的评论数
-		dao.DeductComments(videoid)
+		dao.DeductCommentCount(videoid)
 
 		ToResponse(ctx, ResponseOK("删除评论成功"))
 	}

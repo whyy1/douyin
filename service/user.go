@@ -8,7 +8,7 @@ import (
 )
 
 type User struct {
-	UserId        int64 `json:"id,omitempty"`
+	Id            int64 `json:"id,omitempty"`
 	UserName      string
 	UserPassword  string
 	Name          string `json:"name"`
@@ -28,32 +28,25 @@ type UserResponse struct {
 	dao.User `json:"user"`
 }
 
-func RegisterUser(param *User) (*dao.User, error) {
-
-	//var user User
-	user, err := dao.Register(&dao.User{
-		UserName:     param.UserName,
-		UserPassword: param.UserPassword,
-		Name:         param.Name,
-	})
-
-	//查询用户名是否已存在
-	if user, err := dao.Find(user); err == nil {
-		return user, err
+func CheckName(username string) bool {
+	if dao.Find(username) == true {
+		return true
 	}
-	if user, err := dao.Register(user); err != nil {
-		return user, err
-	}
+	return false
+}
+
+//传入账号密码
+func RegisterUser(username string, password string) (dao.User, error) {
+
+	//用户名不存在则创建
+	user, err := dao.Register(username, password)
 	return user, err
 }
 
-func LoginUser(param *User) (*dao.User, error) {
-	user, err := dao.Login(&dao.User{
-		UserName:     param.UserName,
-		UserPassword: param.UserPassword,
-	})
+func LoginUser(username string, userpass string) (dao.User, error) {
 	//查询用户名密码是否正确
-	///_, err := dao.Login(&param)
+	user, err := dao.Login(username, userpass)
+
 	return user, err
 }
 
@@ -66,7 +59,7 @@ func GetUser(userid int64) (dao.User, error) {
 //传入token返回用户id
 func GetUserId(token string) (int64, error) {
 	user, err := dao.UserId(token)
-	return user.UserId, err
+	return user.Id, err
 }
 
 func ToLoginResponse(ctx *gin.Context, response Response, user_id int64, token string) {

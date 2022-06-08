@@ -9,13 +9,13 @@ import (
 )
 
 type Video struct {
-	VideoId       int64    `json:"id,omitempty"`
-	Author        User     `json:"author" gorm:"foreignKey:UserId;references:UserId;"`
+	Id            int64    `json:"id,omitempty"`
+	Author        User     `json:"author" gorm:"foreignkey:UserId"`
 	PlayUrl       string   `json:"play_url,omitempty"`
 	CoverUrl      string   `json:"cover_url,omitempty"`
 	FavoriteCount int64    `json:"favorite_count" gorm:"force:force"`
 	CommentCount  int64    `json:"comment_count" gorm:"force:force"`
-	Favorite      Favorite ` gorm:"foreignkey:UserId;references:UserId;"`
+	Favorite      Favorite ` gorm:"foreignkey:UserId"`
 	IsFavorite    bool     `json:"is_favorite"`
 	UserId        int64    `gorm:"not null"`
 	Titile        string   `json:"title,omitempty"`
@@ -24,7 +24,7 @@ type Video struct {
 
 func newvideo(param *Video) Video {
 	video := Video{
-		VideoId:       param.VideoId,
+		Id:            param.Id,
 		Author:        param.Author,
 		PlayUrl:       param.PlayUrl,
 		CoverUrl:      param.CoverUrl,
@@ -85,23 +85,37 @@ func NewBucket() *oss.Bucket {
 }
 
 //增加视频评论数
-func AddComments(videoid int64) error {
+func AddCommentCount(videoid int64) error {
 	video := Video{}
 
-	if err := db.Debug().First(&video, "video_id=?", videoid).Update("comment_count", video.CommentCount+1).Error; err != nil {
+	if err := db.Debug().First(&video, "id=?", videoid).Update("comment_count", video.CommentCount+1).Error; err != nil {
 		fmt.Println("评论数增加失败", err)
+		return err
+	}
+
+	return nil
+}
+
+//减少视频评论数
+func DeductCommentCount(videoid int64) error {
+	video := Video{}
+
+	if err := db.Debug().First(&video, "id=?", videoid).Update("comment_count", video.CommentCount-1).Error; err != nil {
+		fmt.Println("评论数减少失败", err)
 		return err
 	}
 	return nil
 }
 
-//减少视频评论数
-func DeductComments(videoid int64) error {
+//传入video_id,增加Video的点赞数
+func AddFavoriteCount(videoid int64) {
 	video := Video{}
 
-	if err := db.Debug().First(&video, "video_id=?", videoid).Update("comment_count", video.CommentCount-1).Error; err != nil {
-		fmt.Println("评论数减少失败", err)
-		return err
-	}
-	return nil
+	db.Debug().First(&video, "id = ?", videoid).Updates(Video{FavoriteCount: video.FavoriteCount + 1})
+}
+
+//传入video_id,减少Video的点赞数
+func DeductFavoriteCount(videoid int64) {
+	video := Video{}
+	db.Debug().First(&video, "id=?", videoid).Updates(Video{FavoriteCount: video.FavoriteCount - 1})
 }

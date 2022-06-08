@@ -5,7 +5,7 @@ import (
 )
 
 type User struct {
-	UserId        int64 `json:"id,omitempty"`
+	Id            int64 `json:"id,omitempty"`
 	UserName      string
 	UserPassword  string
 	Name          string `json:"name"`
@@ -16,47 +16,57 @@ type User struct {
 	Avatar        string `json:"avatar"`
 }
 
-func newUser(param *User) User {
-	user := User{
-		UserId:        param.UserId,
-		UserName:      param.UserName,
-		UserPassword:  param.UserPassword,
-		Name:          param.Name,
-		FollowCount:   param.FollowCount,
-		FollowerCount: param.FollowerCount,
-		IsFollow:      param.IsFollow,
-		Token:         param.Token,
-		Avatar:        param.Avatar,
-	}
-	return user
-}
-func Register(param *User) (*User, error) {
+// func newUser(param *User) User {
+// 	user := User{
+// 		Id:            param.Id,
+// 		UserName:      param.UserName,
+// 		UserPassword:  param.UserPassword,
+// 		Name:          param.Name,
+// 		FollowCount:   param.FollowCount,
+// 		FollowerCount: param.FollowerCount,
+// 		IsFollow:      param.IsFollow,
+// 		Token:         param.Token,
+// 		Avatar:        param.Avatar,
+// 	}
+// 	return user
+// }
+func Register(username string, password string) (User, error) {
 	//token由uuid生成
 	token := uuid.New().String()
-	user := newUser(param)
-	user.Token = token
-	//_ = db.AutoMigrate(&newUser)
+	user := User{
+		UserName:     username,
+		UserPassword: password,
+		Token:        token,
+		Name:         username,
+	}
+	//_ = db.AutoMigrate(&user)
 	err := db.Debug().Create(&user).Error
-	return &user, err
+	return user, err
 }
 
-func Find(param *User) (*User, error) {
-	user := newUser(param)
-	err := db.Debug().First(&user, "user_name =?", user.UserName).Error
-	return &user, err
+func Find(username string) bool {
+	user := User{}
+	if err := db.First(&user, "user_name =?", username).Error; err == nil {
+		return true
+	} else {
+		return false
+	}
 }
 
-func Login(param *User) (*User, error) {
-	user := newUser(param)
-	err := db.Debug().Where("user_name = ? AND user_password = ?", user.UserName, user.UserPassword).First(&user).Error
+func Login(username string, userpass string) (User, error) {
+	user := User{}
+	err := db.Debug().Where("user_name = ? AND user_password = ?", username, userpass).First(&user).Error
+	if err != nil {
+		return User{}, err
+	}
 	token := uuid.New().String()
-	db.Debug().First(&user, "user_id = ?", user.UserId).Updates(User{Token: token})
-	return &user, err
+	db.Debug().First(&user, "id = ?", user.Id).Updates(User{Token: token})
+	return user, err
 }
 
 func UserInfo(userid int64) (User, error) {
 	user := User{}
-	err := db.Debug().First(&user, "user_id =?", userid).Error
+	err := db.Debug().First(&user, "id =?", userid).Error
 	return user, err
 }
 

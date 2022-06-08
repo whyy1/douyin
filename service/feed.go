@@ -20,13 +20,13 @@ func GetVideoList(c *gin.Context, userid int64) []dao.Video {
 	follow := dao.Videofollow(userid)
 	for i := range videos {
 		for _, j := range favorites {
-			if videos[i].UserId == j {
+			if videos[i].Id == j {
 				videos[i].IsFavorite = true
 				break
 			}
 		}
 		for _, j := range follow {
-			if videos[i].Author.UserId == j {
+			if videos[i].Author.Id == j {
 				videos[i].Author.IsFollow = true
 				break
 			}
