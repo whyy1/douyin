@@ -1,2 +1,2 @@
-# whygo
-由base改进过来的后端抖音项目
+# douyin
+由base版改进过来的抖音后端项目
