@@ -14,13 +14,13 @@ func Publish(c *gin.Context) {
 
 	userid, err := service.GetUserId(c.PostForm("token"))
 	if err != nil {
-		service.ToResponse(c, service.ResponseERR("用户鉴权失败"))
+		service.ToResponse(c, service.Err("用户鉴权失败"))
 		return
 	}
 
 	data, err := c.FormFile("data")
 	if err != nil {
-		service.ToResponse(c, service.ResponseERR("视频接收失败"))
+		service.ToResponse(c, service.Err("视频接收失败"))
 		return
 	}
 
@@ -29,7 +29,7 @@ func Publish(c *gin.Context) {
 	if _, err := service.SaveVideo(userid, playurl, coverurl, title); err != nil {
 		panic("视频存入数据库失败" + err.Error())
 	}
-	service.ToResponse(c, service.ResponseOK(" 视频上传成功"))
+	service.ToResponse(c, service.Ok(" 视频上传成功"))
 }
 
 func PublishList(c *gin.Context) {
@@ -39,5 +39,5 @@ func PublishList(c *gin.Context) {
 		//发送错误请求
 		fmt.Println(userid, err)
 	}
-	service.ToListResponse(c, service.ResponseOK(""), service.GetPubilshList(userid))
+	service.ToListResponse(c, service.Ok(""), service.GetPubilshList(userid))
 }

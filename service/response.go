@@ -12,14 +12,15 @@ type Response struct {
 	StatusMsg  string `json:"status_msg,omitempty"`
 }
 
-func ResponseOK(statusmsg string) Response {
+func Ok(statusmsg string) Response {
 	response := Response{
 		StatusCode: 0,
 		StatusMsg:  statusmsg,
 	}
 	return response
 }
-func ResponseERR(statusmsg string) Response {
+
+func Err(statusmsg string) Response {
 	response := Response{
 		StatusCode: 1,
 		StatusMsg:  statusmsg,
@@ -27,14 +28,14 @@ func ResponseERR(statusmsg string) Response {
 	return response
 }
 
-func ToResponse(ctx *gin.Context, response Response) {
-	ctx.JSON(http.StatusOK, response)
+func ToResponse(c *gin.Context, response Response) {
+	c.JSON(http.StatusOK, response)
 }
 
-func ToListResponse(ctx *gin.Context, response Response, list []dao.Video) {
+func ToListResponse(c *gin.Context, response Response, list []dao.Video) {
 	feedresponse := VideoListResponse{
 		Response:  response,
 		VideoList: list,
 	}
-	ctx.JSON(http.StatusOK, feedresponse)
+	c.JSON(http.StatusOK, feedresponse)
 }

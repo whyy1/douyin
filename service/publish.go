@@ -2,6 +2,7 @@ package service
 
 import (
 	"douyin/dao"
+	"douyin/util"
 	"fmt"
 	"mime/multipart"
 	"os"
@@ -43,13 +44,12 @@ func SaveVideo(userid int64, playurl string, coverurl string, title string) (*da
 //文件上传到OSS
 func PublishVideo(data *multipart.FileHeader, userid int64) (string, string, error) {
 	file, _ := data.Open()
-	bucket := dao.NewBucket()
+	bucket := util.NewBucket()
 
 	filename := time.Now().Format("15:04:05") + filepath.Ext(data.Filename)
 	finalName := fmt.Sprintf("%d_%s", userid, filename)
 	time := time.Now().Format("2006/01/02")
 	path := fmt.Sprintf("%v/%v", time, finalName)
-	//savePath := filepath.Join(path, finalName)
 	err := bucket.PutObject(path, file)
 	if err != nil {
 		fmt.Println("Error:", err)

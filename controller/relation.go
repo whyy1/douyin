@@ -14,14 +14,14 @@ func RelationAction(c *gin.Context) {
 
 	userid, err := service.GetUserId(token)
 	if err != nil {
-		service.ToResponse(c, service.ResponseERR("用户鉴权失败"))
+		service.ToResponse(c, service.Err("用户鉴权失败"))
 		return
 	}
 	service.Relation(actiontype, userid, followid)
 	if actiontype == "1" {
-		service.ToResponse(c, service.ResponseERR("关注成功"))
+		service.ToResponse(c, service.Err("关注成功"))
 	} else if actiontype == "2" {
-		service.ToResponse(c, service.ResponseERR("取消关注成功"))
+		service.ToResponse(c, service.Err("取消关注成功"))
 	}
 }
 
@@ -33,7 +33,7 @@ func FollowList(c *gin.Context) {
 
 	userid, err := service.GetUserId(token)
 	if err != nil {
-		service.ToResponse(c, service.ResponseERR("用户鉴权失败"))
+		service.ToResponse(c, service.Err("用户鉴权失败"))
 		return
 	}
 
@@ -46,7 +46,7 @@ func FollowerList(c *gin.Context) {
 
 	userid, err := service.GetUserId(token)
 	if err != nil {
-		service.ToResponse(c, service.ResponseERR("用户鉴权失败"))
+		service.ToResponse(c, service.Err("用户鉴权失败"))
 		return
 	}
 

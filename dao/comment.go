@@ -1,21 +1,27 @@
 package dao
 
 import (
-	"fmt"
 	"time"
 )
 
 type Comment struct {
 	Id         int64  `json:"id,omitempty"`
-	VideoId    int64  //`gorm:"not null" gorm:"foreignkey:VideorId"`
+	VideoId    int64  `gorm:"not null"`
 	UserId     int64  `gorm:"not null"`
 	Content    string `json:"content,omitempty"`
 	CreateDate string `json:"create_date,omitempty"`
 	User       User   `json:"user" gorm:"foreignkey:UserId"`
 }
 
-func AddComment(text string, user User, userid int64, videoid int64) (Comment, error) {
-	//对Comment表插入评论
+func GetComment(commentid int64) Comment {
+	comment := Comment{
+		Id: commentid,
+	}
+	db.First(&comment, "id = ?", commentid)
+	return comment
+}
+
+func AddComment(text string, user User, userid int64, videoid int64) Comment {
 	comment := Comment{
 		User:       user,
 		Content:    text,
@@ -23,26 +29,17 @@ func AddComment(text string, user User, userid int64, videoid int64) (Comment, e
 		VideoId:    videoid,
 		CreateDate: time.Now().Format("2006-01-02 15:04:05"),
 	}
-	if err := db.Create(&comment).Error; err != nil {
-		fmt.Println("评论插入失败", err)
-		return comment, err
-	}
-	return comment, nil
+	db.Create(&comment)
+	return comment
 }
 
-func DeleteComment(commentid int64) error {
-	//删除Comment表中评论
-	if err := db.Debug().Where("id =?", commentid).Delete(&Comment{}).Error; err != nil {
-		fmt.Println("评论删除失败", err)
-		return err
-	}
-	return nil
+func DeleteComment(commentid int64) {
+	db.Where("id =?", commentid).Delete(&Comment{})
 }
-func CommentList(videoid int64) ([]Comment, error) {
+
+func CommentList(videoid int64) []Comment {
 	list := []Comment{}
-	if err := db.Debug().Preload("User").Order("create_date desc").Where("video_id=?", videoid).Find(&list).Error; err != nil {
-		fmt.Println("评论列表获取失败", err)
-		return list, err
-	}
-	return list, nil
+
+	db.Preload("User").Order("create_date desc").Where("video_id=?", videoid).Find(&list)
+	return list
 }

@@ -18,6 +18,7 @@ type User struct {
 	Token         string `json:"token"`
 	Avatar        string `json:"avatar"`
 }
+
 type UserLoginResponse struct {
 	Response
 	UserId int64  `json:"user_id,omitempty"`
@@ -29,7 +30,7 @@ type UserResponse struct {
 }
 
 func CheckName(username string) bool {
-	if dao.Find(username) == true {
+	if err := dao.Find(username); err == nil {
 		return true
 	}
 	return false
@@ -37,8 +38,6 @@ func CheckName(username string) bool {
 
 //传入账号密码
 func RegisterUser(username string, password string) (dao.User, error) {
-
-	//用户名不存在则创建
 	user, err := dao.Register(username, password)
 	return user, err
 }

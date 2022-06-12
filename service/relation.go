@@ -37,7 +37,7 @@ func GetFollowerList(userid int64, authorid int64) []dao.User {
 
 func ToUserListResponse(ctx *gin.Context, list []dao.User) {
 	response := UserListResponse{
-		Response: ResponseOK(""),
+		Response: Ok(""),
 		UserList: list,
 	}
 	ctx.JSON(http.StatusOK, response)

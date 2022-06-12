@@ -18,10 +18,10 @@ func CommentAction(c *gin.Context) {
 
 	userid, err := service.GetUserId(token)
 	if err != nil {
-		service.ToResponse(c, service.ResponseERR("用户鉴权失败"))
+		service.ToResponse(c, service.Err("用户鉴权失败"))
 		return
 	}
-	user, err := service.GetUser(userid)
+	user, _ := service.GetUser(userid)
 
 	service.Comment(c, commentid, actionType, text, user, userid, videoid)
 

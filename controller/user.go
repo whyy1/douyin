@@ -2,7 +2,6 @@ package controller
 
 import (
 	"douyin/service"
-	"fmt"
 	"strconv"
 
 	//"github.com/google/uuid"
@@ -12,39 +11,36 @@ import (
 
 //注册用户
 func Register(c *gin.Context) {
-	//接收前端参数信息
+	//接收参数信息
 	username := c.Query("username")
 	password := c.Query("password")
 
-	//判断用户名是否重复
+	//判断用户名是否存在
 	if service.CheckName(username) {
-		service.ToResponse(c, service.ResponseERR("用户已经存在"))
+		service.ToResponse(c, service.Err("用户已经存在"))
 	} else {
-		//调用service注册用户接口，发送登录请求。
+		//用户名不存在则新建用户
 		if user, err := service.RegisterUser(username, password); err != nil {
-			service.ToResponse(c, service.ResponseERR("用户创建失败"))
+			service.ToResponse(c, service.Err("用户创建失败"))
 		} else {
-			service.ToLoginResponse(c, service.ResponseOK("用户创建成功"), user.Id, user.Token)
+			service.ToLoginResponse(c, service.Ok("用户创建成功"), user.Id, user.Token)
 		}
 	}
-
 }
 
 func Login(c *gin.Context) {
-	//接收前端参数信息
+	//接收参数信息
 	username := c.Query("username")
 	password := c.Query("password")
-	// user := service.User{
-	// 	UserName:     c.Query("username"),
-	// 	UserPassword: c.Query("password"),
-	// }
+
 	//判断用户登录密码是否正确
-	if user, err := service.LoginUser(username, password); err != nil {
-		service.ToLoginResponse(c, service.ResponseERR("用户登录失败,账号密码错误"), user.Id, user.Token)
-	} else {
-		service.ToLoginResponse(c, service.ResponseOK("用户登录成功"), user.Id, user.Token)
+	user, err := service.LoginUser(username, password)
+	if err != nil {
+		service.ToLoginResponse(c, service.Err("用户登录失败,账号密码错误"), user.Id, user.Token)
+		return
 	}
 
+	service.ToLoginResponse(c, service.Ok("用户登录成功"), user.Id, user.Token)
 }
 
 func UserInfo(c *gin.Context) {
@@ -52,10 +48,8 @@ func UserInfo(c *gin.Context) {
 	userid, _ := strconv.ParseInt(c.Query("user_id"), 10, 64)
 
 	if user, err := service.GetUser(userid); err == nil {
-		service.ToUserResponse(c, service.ResponseOK("用户登录成功"), user)
-
+		service.ToUserResponse(c, service.Ok("用户登录成功"), user)
 	} else {
-		fmt.Println(err)
-		service.ToResponse(c, service.ResponseERR("用户不存在"))
+		service.ToResponse(c, service.Err("用户不存在"))
 	}
 }

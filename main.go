@@ -1,15 +1,13 @@
 package main
 
 import (
-	"douyin/dao"
-
-	"github.com/gin-gonic/gin"
+	"fmt"
 )
 
 func main() {
-	// 1.创建路由
-	r := gin.Default()
-	initRouter(r)
-	dao.InitDB()
-	r.Run()
+
+	r := setupRouter()
+	if err := r.Run(); err != nil {
+		fmt.Println("startup service failed, err:%v\n", err)
+	}
 }

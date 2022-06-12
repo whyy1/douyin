@@ -16,11 +16,11 @@ func FavoriteAction(c *gin.Context) {
 
 	userid, err := service.GetUserId(token)
 	if err != nil {
-		service.ToResponse(c, service.ResponseERR("用户鉴权失败"))
+		service.ToResponse(c, service.Err("用户鉴权失败"))
 		return
 	}
 	service.FavoriteAction(actiontype, userid, videoid)
-	service.ToResponse(c, service.ResponseOK("点赞成功"))
+	service.ToResponse(c, service.Ok("点赞成功"))
 }
 func FavoriteList(c *gin.Context) {
 
@@ -29,5 +29,5 @@ func FavoriteList(c *gin.Context) {
 		//发送错误请求
 		fmt.Println(userid, err)
 	}
-	service.ToListResponse(c, service.ResponseOK(""), service.GetFavoriteList(userid))
+	service.ToListResponse(c, service.Ok(""), service.GetFavoriteList(userid))
 }

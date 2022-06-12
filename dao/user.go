@@ -16,20 +16,6 @@ type User struct {
 	Avatar        string `json:"avatar"`
 }
 
-// func newUser(param *User) User {
-// 	user := User{
-// 		Id:            param.Id,
-// 		UserName:      param.UserName,
-// 		UserPassword:  param.UserPassword,
-// 		Name:          param.Name,
-// 		FollowCount:   param.FollowCount,
-// 		FollowerCount: param.FollowerCount,
-// 		IsFollow:      param.IsFollow,
-// 		Token:         param.Token,
-// 		Avatar:        param.Avatar,
-// 	}
-// 	return user
-// }
 func Register(username string, password string) (User, error) {
 	//token由uuid生成
 	token := uuid.New().String()
@@ -38,40 +24,61 @@ func Register(username string, password string) (User, error) {
 		UserPassword: password,
 		Token:        token,
 		Name:         username,
+		Avatar:       "https://picsum.photos/200",
 	}
-	//_ = db.AutoMigrate(&user)
-	err := db.Debug().Create(&user).Error
+	_ = db.AutoMigrate(&user)
+	err := db.Create(&user).Error
 	return user, err
 }
 
-func Find(username string) bool {
+func Find(username string) error {
 	user := User{}
-	if err := db.First(&user, "user_name =?", username).Error; err == nil {
-		return true
-	} else {
-		return false
-	}
+
+	err := db.First(&user, "user_name =?", username).Error
+
+	return err
 }
 
 func Login(username string, userpass string) (User, error) {
 	user := User{}
-	err := db.Debug().Where("user_name = ? AND user_password = ?", username, userpass).First(&user).Error
+
+	err := db.Where("user_name = ? AND user_password = ?", username, userpass).First(&user).Error
 	if err != nil {
 		return User{}, err
 	}
 	token := uuid.New().String()
-	db.Debug().First(&user, "id = ?", user.Id).Updates(User{Token: token})
+	db.First(&user, "id = ?", user.Id).Updates(User{Token: token})
 	return user, err
 }
 
 func UserInfo(userid int64) (User, error) {
 	user := User{}
-	err := db.Debug().First(&user, "id =?", userid).Error
+	db.First(&user, "id =?", userid)
+	err := db.First(&user, "id =?", userid).Error
 	return user, err
 }
 
+//传入token返回
 func UserId(token string) (*User, error) {
 	user := User{}
-	err := db.Debug().First(&user, "token =?", token).Error
+	err := db.First(&user, "token =?", token).Error
 	return &user, err
+}
+
+//增加被关注用户的follow_count数以及关注用户的follower_count数
+func AddFollowCount(userid int64, followid int64) {
+	user := User{}
+	touser := User{}
+
+	db.Debug().First(&user, "id = ?", userid).Update("follow_count", user.FollowCount+1)
+	db.Debug().First(&touser, "id = ?", followid).Update("follower_count", touser.FollowerCount+1)
+}
+
+//减少被关注用户的follow_count数以及关注用户的follower_count数
+func DeductFollowCount(userid int64, followid int64) {
+	user := User{}
+	touser := User{}
+
+	db.Debug().First(&user, "id = ?", userid).Update("follow_count", user.FollowCount-1)
+	db.Debug().First(&touser, "id = ?", followid).Update("follower_count", touser.FollowerCount-1)
 }
