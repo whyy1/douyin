@@ -1,7 +1,7 @@
 # douyin
 由base改进过来的后端抖音项目
 
-项目作者： [韦海艺](https://github.com/whyy1) </br>
+项目作者： [whyy1](https://github.com/whyy1) </br>
 
 项目使用技术栈
 -------
