@@ -1,28 +1,41 @@
 package config
 
 import (
-	"encoding/json"
-	"os"
+	"io/ioutil"
+	"log"
+
+	"gopkg.in/yaml.v2"
 )
 
+var Conf Yaml
+
 //数据库配置参数
-var DBuser string = "root"
-var DBpassword string = "root"
-var DBhost string = "127.0.0.1"
-var DBport string = "3306"
-var DBname string = "douyin"
-
-var Conf aliyunOss
-
-type aliyunOss struct {
-	AccessKeyID     string `json:"AccessKeyID"`
-	AccessKeySecret string `json:"AccessKeySecret"`
-	Endpoint        string `json:"Endpoint"`
-	Bucket          string `json:"Bucket"`
+type MysqlConf struct {
+	User     string `yaml:"user"`
+	Password string `yaml:"password"`
+	Host     string `yaml:"host"`
+	Port     string `yaml:"port"`
+	Name     string `yaml:"name"`
 }
 
 //阿里云OSS配置参数
+type AliyunConf struct {
+	AccessKeyID     string `yaml:"AccessKeyID"`
+	AccessKeySecret string `yaml:"AccessKeySecret"`
+	Endpoint        string `yaml:"Endpoint"`
+	Bucket          string `yaml:"Bucket"`
+}
+
+type Yaml struct {
+	Mysql  MysqlConf  `yaml:"mysql"`
+	Aliyun AliyunConf `yaml:"aliyun"`
+}
+
 func init() {
-	file, _ := os.ReadFile("./config/config.json")
-	_ = json.Unmarshal(file, &Conf)
+	file, _ := ioutil.ReadFile("./config/config.yaml")
+	err := yaml.Unmarshal(file, &Conf)
+	if err != nil {
+		log.Fatalf("yaml unmarshal: %v\n", err)
+		return
+	}
 }

@@ -11,7 +11,7 @@ import (
 var db *gorm.DB
 
 func init() {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", config.DBuser, config.DBpassword, config.DBhost, config.DBport, config.DBname)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", config.Conf.Mysql.User, config.Conf.Mysql.Password, config.Conf.Mysql.Host, config.Conf.Mysql.Port, config.Conf.Mysql.Name)
 	var err error
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {

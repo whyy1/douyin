@@ -50,6 +50,7 @@ func PublishVideo(data *multipart.FileHeader, userid int64) (string, string, err
 	finalName := fmt.Sprintf("%d_%s", userid, filename)
 	time := time.Now().Format("2006/01/02")
 	path := fmt.Sprintf("%v/%v", time, finalName)
+
 	err := bucket.PutObject(path, file)
 	if err != nil {
 		fmt.Println("Error:", err)
