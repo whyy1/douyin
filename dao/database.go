@@ -18,6 +18,7 @@ func init() {
 	}
 
 	fmt.Println(config.DB_SOURCE)
+	fmt.Println(config.DB_SOURCE)
 	db, err = gorm.Open(mysql.Open(config.DB_SOURCE), &gorm.Config{})
 	if err != nil {
 		panic("连接数据库失败, error=" + err.Error())
