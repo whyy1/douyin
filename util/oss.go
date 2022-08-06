@@ -1,9 +1,10 @@
 package util
 
 import (
-	"douyin/config"
 	"fmt"
 	"os"
+
+	"github.com/whyy1/douyin/config"
 
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 )

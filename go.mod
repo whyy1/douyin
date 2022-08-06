@@ -1,13 +1,15 @@
-module douyin
+module github.com/whyy1/douyin
 
 go 1.18
 
 require github.com/gin-gonic/gin v1.8.0
 
 require (
+	github.com/baiyubin/aliyun-sts-go-sdk v0.0.0-20180326062324-cfa1a18b161f // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.4 // indirect
+	github.com/satori/go.uuid v1.2.0 // indirect
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
 )
 
@@ -32,7 +34,7 @@ require (
 	golang.org/x/sys v0.0.0-20210806184541-e5e7981a1069 // indirect
 	golang.org/x/text v0.3.6 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
-	gopkg.in/yaml.v2 v2.4.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/driver/mysql v1.3.4
 	gorm.io/gorm v1.23.5
 )

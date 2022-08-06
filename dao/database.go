@@ -1,8 +1,9 @@
 package dao
 
 import (
-	"douyin/config"
 	"fmt"
+
+	"github.com/whyy1/douyin/config"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
