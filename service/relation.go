@@ -1,8 +1,9 @@
 package service
 
 import (
-	"douyin/dao"
 	"net/http"
+
+	"github.com/whyy1/douyin/dao"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,8 +1,9 @@
 package controller
 
 import (
-	"douyin/service"
 	"strconv"
+
+	"github.com/whyy1/douyin/service"
 
 	"github.com/gin-gonic/gin"
 )

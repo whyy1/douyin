@@ -1,10 +1,9 @@
 package controller
 
 import (
-	//"douyin/dao"
-
-	"douyin/service"
 	"fmt"
+
+	"github.com/whyy1/douyin/service"
 
 	"github.com/gin-gonic/gin"
 )

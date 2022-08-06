@@ -1,9 +1,10 @@
 package dao
 
 import (
-	"douyin/config"
 	"fmt"
+	"log"
 
+	"github.com/whyy1/douyin/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -11,9 +12,14 @@ import (
 var db *gorm.DB
 
 func init() {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", config.Conf.Mysql.User, config.Conf.Mysql.Password, config.Conf.Mysql.Host, config.Conf.Mysql.Port, config.Conf.Mysql.Name)
-	var err error
-	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	config, err := config.LoadConfig(".")
+	if err != nil {
+		log.Fatal("Cannot load config: ", err)
+	}
+
+	fmt.Println(config.DB_SOURCE)
+	fmt.Println(config.DB_SOURCE)
+	db, err = gorm.Open(mysql.Open(config.DB_SOURCE), &gorm.Config{})
 	if err != nil {
 		panic("连接数据库失败, error=" + err.Error())
 	}

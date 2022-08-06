@@ -1,7 +1,7 @@
 package service
 
 import (
-	"douyin/dao"
+	"github.com/whyy1/douyin/dao"
 )
 
 func FavoriteAction(actiontype string, userid int64, videoid int64) {

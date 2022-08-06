@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"douyin/service"
+	"github.com/whyy1/douyin/service"
 
 	"github.com/gin-gonic/gin"
 )
