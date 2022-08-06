@@ -14,6 +14,7 @@ services:
   api:
     build:
       context: .
+      dockerfile: dockerfile
     ports: #将容器端口暴露
       - "8080:8080"
     environment:
