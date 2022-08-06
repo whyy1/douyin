@@ -1,41 +1,30 @@
 package config
 
 import (
-	"io/ioutil"
-	"log"
-
-	"gopkg.in/yaml.v2"
+	"github.com/spf13/viper"
 )
 
-var Conf Yaml
-
-//数据库配置参数
-type MysqlConf struct {
-	User     string `yaml:"user"`
-	Password string `yaml:"password"`
-	Host     string `yaml:"host"`
-	Port     string `yaml:"port"`
-	Name     string `yaml:"name"`
+type Config struct {
+	DB_SOURCE             string `mapstructure:"DB_SOURCE"`
+	OSS_ACCESS_KEY_ID     string `mapstructure:"OSS_ACCESS_KEY_ID"`
+	OSS_ACCESS_KEY_SECRET string `mapstructure:"OSS_ACCESS_KEY_SECRET"`
+	OSS_ENDPOINT          string `mapstructure:"OSS_ENDPOINT"`
+	OSS_BUCKET            string `mapstructure:"OSS_BUCKET"`
 }
 
-//阿里云OSS配置参数
-type AliyunConf struct {
-	AccessKeyID     string `yaml:"AccessKeyID"`
-	AccessKeySecret string `yaml:"AccessKeySecret"`
-	Endpoint        string `yaml:"Endpoint"`
-	Bucket          string `yaml:"Bucket"`
-}
+func LoadConfig(path string) (config Config, err error) {
+	viper.AddConfigPath(path)
+	viper.SetConfigName("app")
+	viper.SetConfigType("env")
 
-type Yaml struct {
-	Mysql  MysqlConf  `yaml:"mysql"`
-	Aliyun AliyunConf `yaml:"aliyun"`
-}
+	// read variable from env variable
+	viper.AutomaticEnv()
 
-func init() {
-	file, _ := ioutil.ReadFile("./config/config.yaml")
-	err := yaml.Unmarshal(file, &Conf)
+	err = viper.ReadInConfig()
 	if err != nil {
-		log.Fatalf("yaml unmarshal: %v\n", err)
 		return
 	}
+
+	err = viper.Unmarshal(&config)
+	return
 }

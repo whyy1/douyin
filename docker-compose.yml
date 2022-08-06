@@ -4,25 +4,28 @@ services:
   mysql:
     image: mysql:5.7
     environment:
-      - MYSQL_USER=douyin
-      - MYSQL_PASSWORD=douyin
-      - MYSQL_DATABASE=douyin
-      - MYSQL_ROOT_PASSWORD=douyin
+      MYSQL_USER: douyin
+      MYSQL_PASSWORD: douyin
+      MYSQL_DATABASE: douyin
+      MYSQL_ROOT_PASSWORD: douyin
     ports:
       - 3306:3306
 
   api:
     build:
       context: .
-      dockerfile: Dockerfile
     ports: #将容器端口暴露
-      - 8080:8080
+      - "8080:8080"
+    environment:
+      TZ: Asia/Shanghai #设置容器时间为北京时间
+      PORT: 8080
+      DB_DRIVER: mysql
+      DB_USER: root
+      DB_PASSWORD: douyin
+      DB_PORT: 3306
+      DB_NAME: douyin
+      DB_HOST: mysql
     depends_on: #依赖容器，必须先运行前置依赖容器
       - mysql
-    stdin_open: true #不知道是啥
-    tty: true #不知道是啥
-    environment:
-      - TZ=Asia/Shanghai #设置容器时间为北京时间
-      - PORT=8080
     entrypoint: ["/app/wait-for.sh", "mysql:3306", "--", "/app/start.sh"]
     command: ["./main"]
