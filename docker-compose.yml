@@ -14,7 +14,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: dockerfile
     ports: #将容器端口暴露
       - 8080:8080
     depends_on: #依赖容器，必须先运行前置依赖容器
