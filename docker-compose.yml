@@ -1,4 +1,4 @@
-version: '3.9' #compose版本，一般是3.x
+version: "3.9" #compose版本，一般是3.x
 
 services:
   mysql:
@@ -16,12 +16,13 @@ services:
       context: .
       dockerfile: Dockerfile
     ports: #将容器端口暴露
-     - 8080:8080
+      - 8080:8080
     depends_on: #依赖容器，必须先运行前置依赖容器
       - mysql
     stdin_open: true #不知道是啥
     tty: true #不知道是啥
     environment:
       - TZ=Asia/Shanghai #设置容器时间为北京时间
+      - PORT=8080
     entrypoint: ["/app/wait-for.sh", "mysql:3306", "--", "/app/start.sh"]
-    command: ["/main"]
+    command: ["./main"]
