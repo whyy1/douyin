@@ -1,33 +1,28 @@
-# 最低版本go的依赖
-FROM golang:1.17.7 
+FROM golang:1.18 AS builder
+WORKDIR /app
+# ENV GOPROXY=https://goproxy.cn,direct
+COPY . .
 
-# 配置模块代理
-ENV GOPROXY=https://goproxy.cn,direct
-
-# 复制文件目录下的所有代码 
-ADD . /whygo
-
-#默认进入文件目录
-WORKDIR /whygo
-
-# 复制代码
-ADD /whygo/go.mod .
-ADD /whygo/go.sum .
-
-# 下载依赖
-RUN go mod download
-
-# 运行命令，安装依赖
-# 例如 RUN npm install && cd /app && mkdir logs
-ADD ./whygo .
+RUN go version
 ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64
+RUN go build -o main main.go
 
-# RUN 命令可以有多个，但是可以用 && 连接多个命令来减少层级。
-# 构建exe文件，名字为demo
-RUN go build  -o  main 
+FROM alpine:3.13
+USER root
+WORKDIR /app
+COPY --from=builder /app/main .
+COPY --from=builder /app/app.env .
+COPY --from=builder /app/start.sh ./start.sh
+COPY --from=builder /app/wait-for.sh ./wait-for.sh
 
-# CMD 指令只能一个，是容器启动后执行的命令，算是程序的入口。
-# 默认运行 demo
-ENTRYPOINT [ "./main" ]
+RUN chmod 777 ./start.sh
+RUN chmod 777 ./wait-for.sh
+RUN chmod 777 ./main
+
+EXPOSE 8080
+
+CMD [ "./main" ]
+ENTRYPOINT [ "/app/start.sh"]
+

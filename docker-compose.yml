@@ -1,24 +1,28 @@
-version: '3.9' #compose版本，一般是3.x
+version: "3.9" #compose版本，一般是3.x
 
 services:
-  server: 
-    image: douyin:v1
-    build: .
+  mysql:
+    image: mysql:5.7
+    platform: linux/x86_64
+    environment:
+      MYSQL_USER: douyin
+      MYSQL_PASSWORD: douyin
+      MYSQL_DATABASE: douyin
+      MYSQL_ROOT_PASSWORD: douyin
+    ports:
+      - 3306:3306
+
+  api:
+    build:
+      context: .
+      dockerfile: dockerfile
     ports: #将容器端口暴露
-     - 8080:8080
-    volumes:  #讲当前目录挂载到/whygo
-      - ./:/whygo
-    network_mode: service:mysql #依赖容器mysql，必须先运行前置依赖
+      - "8080:8080"
+    environment:
+      TZ: Asia/Shanghai #设置容器时间为北京时间
+      PORT: 8080
+      DB_SOURCE: douyin:douyin@tcp(mysql:3306)/douyin?charset=utf8mb4&parseTime=True&loc=Local
     depends_on: #依赖容器，必须先运行前置依赖容器
       - mysql
-    stdin_open: true #不知道是啥
-    tty: true #不知道是啥
-    environment:
-      - TZ=Asia/Shanghai #设置容器时间为北京时间
-
-  mysql:
-    image: mysql:8.0 #使用的镜像为mysql:8.0版本
-    ports: #将容器端口暴露
-      - 3306:3306
-    volumes:
-      - ./docker_data/mysql:/db #将当前目录/docker_data挂载到容器db
+    entrypoint: ["/app/wait-for.sh", "mysql:3306", "--", "/app/start.sh"]
+    command: ["./main"]

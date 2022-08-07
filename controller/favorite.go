@@ -1,11 +1,11 @@
 package controller
 
 import (
-	"douyin/service"
 	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/whyy1/douyin/service"
 )
 
 //判断登录用户，对点赞/取消点赞做出相应操作

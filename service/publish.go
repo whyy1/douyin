@@ -1,13 +1,14 @@
 package service
 
 import (
-	"douyin/dao"
-	"douyin/util"
 	"fmt"
 	"mime/multipart"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/whyy1/douyin/dao"
+	"github.com/whyy1/douyin/util"
 )
 
 type VideoListResponse struct {
