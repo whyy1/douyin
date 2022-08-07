@@ -22,4 +22,4 @@ jobs:
           REPOSITORY: douyin
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ REPOSITORY }}:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/$REPOSITORY:${{ github.sha }}
