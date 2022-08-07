@@ -19,8 +19,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         env:
-          REPOSITORY_NAME: echo "Come ON" | tr A-Z a-z
-          IMAGE_TAG: ${{ github.sha }}
+          REPOSITORY: douyin
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/$REPOSITORY_NAME:$IMAGE_TAG
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ REPOSITORY }}:${{ github.sha }}
