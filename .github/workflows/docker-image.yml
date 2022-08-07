@@ -18,6 +18,9 @@ jobs:
       -
         name: Build and push
         uses: docker/build-push-action@v3
+        env:
+          REPOSITORY_NAME: echo "Come ON" | tr A-Z a-z
+          IMAGE_TAG: ${{ github.sha }}
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.repository }}:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/$REPOSITORY_NAME:$IMAGE_TAG
