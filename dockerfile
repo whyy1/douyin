@@ -1,6 +1,6 @@
 FROM golang:1.18 AS builder
 WORKDIR /app
-# ENV GOPROXY=https://goproxy.cn,direct
+ENV GOPROXY=https://goproxy.cn,direct
 COPY . .
 
 RUN go version

@@ -16,6 +16,7 @@ services:
     build:
       context: .
       dockerfile: dockerfile
+    # image: registry.cn-hangzhou.aliyuncs.com/whyy1/douyin:v1
     ports: #将容器端口暴露
       - "8080:8080"
     environment:
