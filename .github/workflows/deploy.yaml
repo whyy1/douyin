@@ -2,7 +2,7 @@ name: Deployment
 
 on:
   workflow_run:
-    workflows: ["Run Tests"]
+    workflows: ["image-build-push"]
     branches: [main]
     types:
       - completed
