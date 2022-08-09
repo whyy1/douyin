@@ -21,4 +21,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ secrets.ALIYUN_USERNAME }}/douyin:${{ github.sha }}
+          tags: registry.cn-hangzhou.aliyuncs.com/weihaidong/douyin:${{ github.sha }}
