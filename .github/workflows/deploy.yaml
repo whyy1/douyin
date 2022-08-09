@@ -17,11 +17,9 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            whoami
-            ls -a
             cd workspace
-            export REGISTRY=registry.cn-hangzhou.aliyuncs.com
-            export IMAGE_URI="${REGISTRY}/hawei_github/douyin:${{ github.sha }}""
+            export REGISTRY="registry.cn-hangzhou.aliyuncs.com"
+            export IMAGE_URI="${REGISTRY}/hawei_github/douyin:${{ github.sha }}"
             echo $IMAGE_URI
             docker login -u=${{ secrets.ALIYUN_USERNAME }} -p ${{ secrets.ALIYUN_TOKEN }}  $REGISTRY
             docker pull $IMAGE_URI
