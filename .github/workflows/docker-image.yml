@@ -3,7 +3,9 @@ name: ci
 on:
   push:
     branches:
-      - 'ParseDark-patch-1'
+      - 'main'
+      - 'beta'
+      - 'alpha'
 
 jobs:
   docker:
