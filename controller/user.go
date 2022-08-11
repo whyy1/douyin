@@ -12,20 +12,24 @@ import (
 
 //注册用户
 func Register(c *gin.Context) {
-	//接收参数信息
-	username := c.Query("username")
-	password := c.Query("password")
-
+	// 接收参数信息
+	// username := c.Query("username")
+	// password := c.Query("password")
+	user := service.User{
+		Name:         c.Query("username"),
+		UserPassword: c.Query("password"),
+	}
 	//判断用户名是否存在
-	if service.CheckName(username) {
+	if service.CheckName(user.Name) {
 		service.ToResponse(c, service.Err("用户已经存在"))
+		return
+	}
+
+	//用户名不存在则新建用户
+	if user, err := service.RegisterUser(username, password); err != nil {
+		service.ToResponse(c, service.Err("用户创建失败"))
 	} else {
-		//用户名不存在则新建用户
-		if user, err := service.RegisterUser(username, password); err != nil {
-			service.ToResponse(c, service.Err("用户创建失败"))
-		} else {
-			service.ToLoginResponse(c, service.Ok("用户创建成功"), user.Id, user.Token)
-		}
+		service.ToLoginResponse(c, service.Ok("用户创建成功"), user.Id, user.Token)
 	}
 }
 

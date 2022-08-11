@@ -38,9 +38,13 @@ func CheckName(username string) bool {
 }
 
 //传入账号密码
-func RegisterUser(username string, password string) (dao.User, error) {
-	user, err := dao.Register(username, password)
-	return user, err
+func RegisterUser(parameter User) dao.User {
+	user := dao.User{
+		Name:         parameter.UserName,
+		UserPassword: parameter.UserPassword,
+	}
+	dao.Register(user)
+	return user
 }
 
 func LoginUser(username string, userpass string) (dao.User, error) {
