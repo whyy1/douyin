@@ -30,5 +30,5 @@ brew install golang-migrate
 - Controller 层中进行参数校验，负责具体的业务模块流程的控制。
 - Service 层通过 Controller 传递的参数的进行业务逻辑的处理，然后调用 Dao 进行数据持久化。
 - Dao 层主要是做数据持久层的工作，与数据库有关的操作都在这里。
-  \*util 中存放了 OSS 对象存储的一些工具类
+- util 中存放了 OSS 对象存储的一些工具类
   项目细节说明
