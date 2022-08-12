@@ -1,6 +1,11 @@
 package dao
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
+	"io"
+	"log"
+
 	"github.com/google/uuid"
 )
 
@@ -16,27 +21,38 @@ type User struct {
 	Avatar        string `json:"avatar"`
 }
 
-func Register(username string, password string) (User, error) {
+func Register(user User) User {
+
 	//token由uuid生成
-	token := uuid.New().String()
-	user := User{
-		UserName:     username,
-		UserPassword: password,
-		Token:        token,
-		Name:         username,
-		Avatar:       "https://picsum.photos/200",
+	//token := uuid.New().String()
+	user.UserPassword = getHAS256(user.UserPassword)
+	user.Avatar = "https://picsum.photos/200"
+	user.Name = user.UserName
+	// user := User{
+	// 	UserName:     username,
+	// 	UserPassword: password,
+	// 	Token:        token,
+	// 	Name:         username,
+	// 	Avatar:       "https://picsum.photos/200",
+	// }
+	if err := db.AutoMigrate(&user); err != nil {
+		log.Println("username:%v ,User AutoMigrate fail,err=%v\n", user.UserName, err)
 	}
-	_ = db.AutoMigrate(&user)
-	err := db.Create(&user).Error
-	return user, err
+
+	if err := db.Create(&user).Error; err != nil {
+		log.Println("username:%v,User Create fail,err=%v", user.UserName, err)
+	}
+
+	return user
 }
 
-func Find(username string) error {
-	user := User{}
+func Find(user User) {
+	// user := User{}
 
-	err := db.First(&user, "user_name =?", username).Error
-
-	return err
+	if err := db.First(&user, "user_name =?", user.Name).Error; err != nil {
+		log.Println("username:%v,User Find fail,err=%v", user.UserName, err)
+	}
+	return
 }
 
 func Login(username string, userpass string) (User, error) {
@@ -81,4 +97,13 @@ func DeductFollowCount(userid int64, followid int64) {
 
 	db.Debug().First(&user, "id = ?", userid).Update("follow_count", user.FollowCount-1)
 	db.Debug().First(&touser, "id = ?", followid).Update("follower_count", touser.FollowerCount-1)
+}
+
+//HAS256对密码进行加密
+func getHAS256(password string) (has string) {
+	w := sha256.New()
+	io.WriteString(w, password)
+	bw := w.Sum(nil)
+	has = hex.EncodeToString(bw)
+	return has
 }
