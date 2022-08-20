@@ -1,0 +1,31 @@
+name: Deployment
+
+on:
+  workflow_run:
+    workflows: ["image-build-push"]
+    branches: [main]
+    types:
+      - completed
+
+jobs:
+  build:
+    name: deploy image
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            export REGISTRY="registry.cn-hangzhou.aliyuncs.com"
+            export IMAGE_URI="${REGISTRY}/hawei_github/douyin:${{ github.sha }}"
+            echo $IMAGE_URI
+            docker login -u=${{ secrets.ALIYUN_USERNAME }} -p ${{ secrets.ALIYUN_TOKEN }}  $REGISTRY
+            echo 'y' | docker system prune $1
+            docker pull $IMAGE_URI
+            rm -rf docker-compose.yml
+            curl https://ghproxy.com/https://raw.githubusercontent.com/ParseDark/douyin/main/docker-compose.yml > docker-compose.yml
+            docker-compose up -d
