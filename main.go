@@ -2,17 +2,22 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/whyy1/douyin/controller"
 )
 
 func main() {
 	r := setupRouter()
-	if err := r.Run(); err != nil {
-		fmt.Println("startup service failed, err:%v\n", err)
-	}
-}
+	setupLogs()
 
+	if err := r.Run(); err != nil {
+		fmt.Println("startup service failed, err:", err)
+	}
+	fmt.Println("服务启动成功！")
+}
 
 func setupRouter() *gin.Engine {
 	r := gin.Default()
@@ -35,4 +40,15 @@ func setupRouter() *gin.Engine {
 	apiRouter.GET("/relation/follower/list/", controller.FollowerList)
 
 	return r
+}
+
+func setupLogs() {
+	logFile, err := os.OpenFile("./logs/douyin.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
+	if err != nil {
+		fmt.Println("open log file failed, err:", err)
+		return
+	}
+	log.SetOutput(logFile)
+	log.SetFlags(log.Llongfile | log.Lmicroseconds | log.Ldate)
+	fmt.Println("日志打开成功！")
 }

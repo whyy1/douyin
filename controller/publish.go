@@ -13,7 +13,7 @@ func Publish(c *gin.Context) {
 
 	userid, err := service.GetUserId(c.PostForm("token"))
 	if err != nil {
-		service.ToResponse(c, service.Err("用户鉴权失败"))
+		service.ToResponse(c, service.Err("token过期或失效"))
 		return
 	}
 

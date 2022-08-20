@@ -15,7 +15,7 @@ func RelationAction(c *gin.Context) {
 
 	userid, err := service.GetUserId(token)
 	if err != nil {
-		service.ToResponse(c, service.Err("用户鉴权失败"))
+		service.ToResponse(c, service.Err("token过期或失效"))
 		return
 	}
 	service.Relation(actiontype, userid, followid)
@@ -34,7 +34,7 @@ func FollowList(c *gin.Context) {
 
 	userid, err := service.GetUserId(token)
 	if err != nil {
-		service.ToResponse(c, service.Err("用户鉴权失败"))
+		service.ToResponse(c, service.Err("token过期或失效"))
 		return
 	}
 
@@ -47,7 +47,7 @@ func FollowerList(c *gin.Context) {
 
 	userid, err := service.GetUserId(token)
 	if err != nil {
-		service.ToResponse(c, service.Err("用户鉴权失败"))
+		service.ToResponse(c, service.Err("token过期或失效"))
 		return
 	}
 

@@ -26,26 +26,28 @@ func GetToken(userid int64) string {
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	fmt.Println(token)
+	//fmt.Println(token)
 	tokenString, err := token.SignedString(jwtkey)
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println(tokenString)
 	return tokenString
 }
 
-func QueryToken(tokenString string) {
+func QueryToken(tokenString string) (int64, bool) {
 	//如果token为空或者未找到
 	if tokenString == "" {
-		fmt.Println("token为空")
+		return 0, false
 	}
-	fmt.Println(tokenString)
+	//fmt.Println(tokenString)
 	token, claims, err := ParseToken(tokenString)
 	if err != nil || !token.Valid {
-		fmt.Println("token不存在")
+		return 0, false
 	}
-	fmt.Println(claims.UserId)
-	fmt.Println(token)
+	//fmt.Println(claims.UserId)
+	//fmt.Println(token)
+	return claims.UserId, true
 }
 
 func ParseToken(tokenString string) (*jwt.Token, *Claims, error) {
