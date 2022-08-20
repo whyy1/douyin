@@ -1,9 +1,11 @@
 package service
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/whyy1/douyin/dao"
+	"github.com/whyy1/douyin/jwt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -30,22 +32,39 @@ type UserResponse struct {
 	dao.User `json:"user"`
 }
 
-func CheckName(username string) bool {
-	if err := dao.Find(username); err == nil {
-		return true
-	}
-	return false
-}
+// func CheckName(parameter User) bool {
+// 	user := dao.User{
+// 		Name: parameter.UserName,
+// 	}
+// 	if dao.Find(user) == true {
+// 		return true
+// 	}
+// 	return false
+// }
 
 //传入账号密码
-func RegisterUser(username string, password string) (dao.User, error) {
-	user, err := dao.Register(username, password)
+func RegisterUser(parameter User) (dao.User, error) {
+	user := dao.User{
+		UserName:     parameter.UserName,
+		Name:         parameter.UserName,
+		UserPassword: parameter.UserPassword,
+	}
+	if dao.FindName(user) == true {
+		err := errors.New("用户名已经存在")
+		return user, err
+	}
+	_, err := dao.Register(user)
 	return user, err
 }
 
-func LoginUser(username string, userpass string) (dao.User, error) {
+func LoginUser(parameter User) (dao.User, error) {
 	//查询用户名密码是否正确
-	user, err := dao.Login(username, userpass)
+	user := dao.User{
+		Name:         parameter.UserName,
+		UserName:     parameter.UserName,
+		UserPassword: parameter.UserPassword,
+	}
+	user, err := dao.Login(user)
 
 	return user, err
 }
@@ -58,8 +77,29 @@ func GetUser(userid int64) (dao.User, error) {
 
 //传入token返回用户id
 func GetUserId(token string) (int64, error) {
-	user, err := dao.UserId(token)
-	return user.Id, err
+
+	//var r_token string
+
+	//判断token是否过期,过期直接返回
+	id, pd := jwt.QueryToken(token)
+	if !pd {
+		err := errors.New("token已失效")
+		return id, err
+	}
+	//Redis不存在token,则查询Mysql中是否存在token,找到则返回
+	if str, _ := dao.GetToken(id); str == token {
+		return id, nil
+	}
+	//Redis不存在token,则查询Mysql中是否存在token,找到则返回
+	if user, _ := dao.UserInfo(id); user.Token == token {
+		dao.SetToken(id, user.Token)
+		return id, nil
+	}
+
+	//user, err := dao.UserId(token)
+	//return user.Id, err
+	//都没找到token,失效
+	return id, errors.New("token已失效")
 }
 
 func ToLoginResponse(ctx *gin.Context, response Response, user_id int64, token string) {

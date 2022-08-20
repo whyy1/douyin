@@ -10,6 +10,7 @@ type Config struct {
 	OSS_ACCESS_KEY_SECRET string `mapstructure:"OSS_ACCESS_KEY_SECRET"`
 	OSS_ENDPOINT          string `mapstructure:"OSS_ENDPOINT"`
 	OSS_BUCKET            string `mapstructure:"OSS_BUCKET"`
+	REDIS_SOURCE          string `mapstructure:"REDIS_SOURCE"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
