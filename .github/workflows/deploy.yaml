@@ -27,5 +27,5 @@ jobs:
             echo 'y' | docker system prune $1
             docker pull $IMAGE_URI
             rm -rf docker-compose.yml
-            curl https://ghproxy.com/https://raw.githubusercontent.com/ParseDark/douyin/main/docker-compose.yml > docker-compose.yml
+            curl https://ghproxy.com/https://raw.githubusercontent.com/whyy1/douyin/main/docker-compose.yml > docker-compose.yml
             docker-compose up -d
