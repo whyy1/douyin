@@ -5,12 +5,11 @@ import (
 )
 
 type Config struct {
-	DB_SOURCE             string `mapstructure:"DB_SOURCE"`
-	OSS_ACCESS_KEY_ID     string `mapstructure:"OSS_ACCESS_KEY_ID"`
-	OSS_ACCESS_KEY_SECRET string `mapstructure:"OSS_ACCESS_KEY_SECRET"`
-	OSS_ENDPOINT          string `mapstructure:"OSS_ENDPOINT"`
-	OSS_BUCKET            string `mapstructure:"OSS_BUCKET"`
-	REDIS_SOURCE          string `mapstructure:"REDIS_SOURCE"`
+	DB_SOURCE     string `mapstructure:"DB_SOURCE"`
+	REDIS_SOURCE  string `mapstructure:"REDIS_SOURCE"`
+	QN_ACCESS_KEY string `mapstructure:"QN_ACCESS_KEY"`
+	QN_SECRET_KEY string `mapstructure:"QN_SECRET_KEY"`
+	QN_BUCKET     string `mapstructure:"QN_BUCKET"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
