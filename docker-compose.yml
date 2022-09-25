@@ -11,30 +11,32 @@ services:
       MYSQL_DATABASE: douyin
       MYSQL_ROOT_PASSWORD: douyin
     volumes:
-      - ./mysql/data/:/var/lib/mysql/
-      - ./mysql/conf.d:/etc/mysql/conf.d
-    ports:
-      - 3306:3306
+      - ./volume/mysql/data/:/var/lib/mysql/
+#      - ./mysql/:/etc/mysql/ 
 
   redis:
     image: redis:5.0.13
     volumes:
-      - ./redis/:/data
+      - ./volume/redis/:/data
     environment:
       - TZ=Asia/Shanghai
-    
+    ports: #将容器端口暴露
+      - "6379:6379"
   api:
-    image: "${IMAGE_URI}"
+    #image: "${IMAGE_URI}"
+    #image: registry.cn-hangzhou.aliyuncs.com/whyy1/douyin:2cf1c8bab9f08aded8ac7c536a93168068b11f89
+    build: .
     ports: #将容器端口暴露
       - "8080:8080"
     environment:
       TZ: Asia/Shanghai #设置容器时间为北京时间
       PORT: 8080
       DB_SOURCE: douyin:douyin@tcp(mysql:3306)/douyin?charset=utf8mb4&parseTime=True&loc=Local
+      REDIS_SOURCE: redis:6379 
     depends_on: #依赖容器，必须先运行前置依赖容器
       - mysql
       - redis
     volumes:
-      - ./logs/douyin.log:/app/logs/douyin.log
+      - ./logs/:/app/logs/
     entrypoint: ["/app/wait-for.sh", "mysql:3306", "--", "/app/start.sh"]
     command: ["./main"]

@@ -2,7 +2,7 @@ create_net:
 	docker network create douyin-network
 
 mysql:
-	docker run --name douyin-mysql --network douyin-network -p 3306:3306 -e MYSQL_USER=douyin -e MYSQL_PASSWORD=douyin -e MYSQL_DATABASE=douyin -e MYSQL_ROOT_PASSWORD=douyin -d mysql:5.7
+	docker run --name douyin-mysql -v -v ./volume/mysql/data:/var/lib/mysql/ --network douyin-network -p 3306:3306 -e MYSQL_USER=douyin -e MYSQL_PASSWORD=douyin -e MYSQL_DATABASE=douyin -e MYSQL_ROOT_PASSWORD=douyin -d mysql:5.7
 
 createdb:
 	docker exec -it douyin-mysql  createdb --username=root --owner=root douyin
