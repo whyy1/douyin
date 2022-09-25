@@ -2,6 +2,7 @@ package util
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 	"log"
 	"mime/multipart"
@@ -19,13 +20,19 @@ type MyPutRet struct {
 	Name   string
 }
 
-func NewUpToken() string {
+func NewUpToken(filename string) string {
 	config, err := config.LoadConfig(".")
 	if err != nil {
 		log.Fatal("Cannot load config: ", err)
 	}
+	data := []byte(fmt.Sprintf("%v:image.jpg", config.QN_BUCKET))
+	bs64 := base64.URLEncoding.EncodeToString(data)
 	putPolicy := storage.PutPolicy{
-		Scope: config.QN_BUCKET,
+		Scope:               config.QN_BUCKET,
+		ForceSaveKey:        true,
+		SaveKey:             filename,
+		PersistentOps:       fmt.Sprintf("vframe/jpg/offset/0|saveas/%v", bs64),
+		PersistentNotifyURL: "http://fake.com/qiniu/notify",
 	}
 	mac := qbox.NewMac(config.QN_ACCESS_KEY, config.QN_SECRET_KEY)
 	upToken := putPolicy.UploadToken(mac)
@@ -44,7 +51,9 @@ func PutFile(upToken string, path string, data *multipart.FileHeader) error {
 	formUploader := storage.NewFormUploader(&cfg)
 	file, _ := data.Open()
 
-	ret := MyPutRet{}
+	ret := MyPutRet{
+		Hash: "images",
+	}
 	putExtra := storage.PutExtra{
 		Params: map[string]string{
 			"x:name": "github logo",
@@ -57,5 +66,6 @@ func PutFile(upToken string, path string, data *multipart.FileHeader) error {
 		return err
 	}
 	fmt.Println(ret.Bucket, ret.Key, ret.Fsize, ret.Hash, ret.Name)
+	fmt.Println("上传失败")
 	return nil
 }

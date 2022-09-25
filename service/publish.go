@@ -43,34 +43,24 @@ func SaveVideo(userid int64, playurl string, coverurl string, title string) (*da
 	return &video, err
 }
 
-//文件上传到OSS
+//文件上传到Kodo
 func PublishVideo(data *multipart.FileHeader, userid int64) (string, string, error) {
-	//file, _ := data.Open()
-	token := util.NewUpToken()
-	//bucket := util.NewBucket()
 
 	filename := time.Now().Format("15:04:05") + filepath.Ext(data.Filename)
 	finalName := fmt.Sprintf("%d_%s", userid, filename)
 	time := time.Now().Format("2006/01/02")
 	path := fmt.Sprintf("%v/%v", time, finalName)
 
-	// err := bucket.PutObject(path, file)
-	// if err != nil {
-	// 	fmt.Println("Error:", err)
-	// 	os.Exit(-1)
-	// }
+	token := util.NewUpToken(path)
 	err := util.PutFile(token, path, data)
 	if err != nil {
 		log.Fatal("文件上传失败", err)
 	}
-	domain := "https://image.example.com"
-	key := path
-	playurl := storage.MakePublicURL(domain, key)
-	fmt.Println(playurl)
-	//playurl := fmt.Sprintf("http://y1-douyin.oss-cn-hangzhou.aliyuncs.com/%v", path)
+
+	playurl := storage.MakePublicURL("http://ricmk4ybq.hn-bkt.clouddn.com", path)
 
 	//视频抽帧
-	coverurl := playurl + "?x-oss-process=video/snapshot,t_500,f_jpg,w_0,h_0,m_fast"
+	coverurl := "http://fake.com/qiniu/notify/"
 	return playurl, coverurl, nil
 }
 
