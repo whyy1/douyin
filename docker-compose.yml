@@ -23,9 +23,9 @@ services:
     ports: #将容器端口暴露
       - "6379:6379"
   api:
-    #image: "${IMAGE_URI}"
+    image: "${IMAGE_URI}"
     #image: registry.cn-hangzhou.aliyuncs.com/whyy1/douyin:2cf1c8bab9f08aded8ac7c536a93168068b11f89
-    build: .
+    #build: .
     ports: #将容器端口暴露
       - "8080:8080"
     environment:
