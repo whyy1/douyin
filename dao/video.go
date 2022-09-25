@@ -89,6 +89,7 @@ func DeductCommentCount(videoid int64) {
 	video := Video{}
 
 	db.First(&video, "id=?", videoid).Update("comment_count", video.CommentCount-1)
+
 }
 
 //传入video_id,增加Video的点赞数

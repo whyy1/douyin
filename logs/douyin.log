@@ -27,3 +27,46 @@
 2022/08/20 12:10:46.926911 f:/go_study/douyin/controller/feed.go:15: 日志测试
 2022/08/20 15:40:28.910436 f:/go_study/douyin/controller/feed.go:15: 日志测试
 2022/09/19 20:46:21.266602 f:/go_study/douyin/service/publish.go:64: 文件上传失败incorrect region, please use up-z2.qiniup.com, bucket is: y1-douyin
+2022/09/25 21:05:58.291074 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : write tcp 127.0.0.1:65264->127.0.0.1:6379: wsasend: An existing connection was forcibly closed by the remote host.
+2022/09/25 21:05:58.292109 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : write tcp 127.0.0.1:65250->127.0.0.1:6379: wsasend: An existing connection was forcibly closed by the remote host.
+2022/09/25 21:06:00.818360 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:06:00.819298 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:06:02.821228 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:06:02.821860 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:06:04.818715 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:06:06.822706 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:06:09.389395 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:06:09.389395 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:06:11.392012 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:06:11.393226 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:09:56.752097 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:09:58.766110 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:10:01.336444 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:10:01.336444 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:10:03.338815 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:10:03.338815 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:15:15.477985 f:/go_study/douyin/dao/redis.go:48: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:15:17.489095 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:15:20.036052 f:/go_study/douyin/dao/redis.go:48: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:15:20.038261 f:/go_study/douyin/dao/redis.go:48: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:15:22.040064 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:15:22.042728 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:16:01.237036 f:/go_study/douyin/dao/redis.go:48: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:16:03.240516 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:16:05.784537 f:/go_study/douyin/dao/redis.go:48: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:16:05.786216 f:/go_study/douyin/dao/redis.go:48: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:16:07.789144 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:16:07.789144 f:/go_study/douyin/dao/redis.go:35: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:16:20.614172 f:/go_study/douyin/dao/redis.go:48: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:17:19.907909 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:17:23.068698 f:/go_study/douyin/dao/redis.go:34: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:17:28.541457 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:17:28.541457 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:17:30.544775 f:/go_study/douyin/dao/redis.go:34: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:17:30.553860 f:/go_study/douyin/dao/redis.go:34: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:18:10.598619 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:18:12.600709 f:/go_study/douyin/dao/redis.go:34: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:18:15.157214 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:18:15.158971 f:/go_study/douyin/dao/redis.go:44: redis:获取token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:18:17.160826 f:/go_study/douyin/dao/redis.go:34: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.
+2022/09/25 21:18:17.162379 f:/go_study/douyin/dao/redis.go:34: redis:设置token错误，id 59  faild : dial tcp 127.0.0.1:6379: connectex: No connection could be made because the target machine actively refused it.

@@ -46,21 +46,23 @@ func SaveVideo(userid int64, playurl string, coverurl string, title string) (*da
 //文件上传到Kodo
 func PublishVideo(data *multipart.FileHeader, userid int64) (string, string, error) {
 
-	filename := time.Now().Format("15:04:05") + filepath.Ext(data.Filename)
+	//设置保存在Kodo中的路径以及文件名
+	filename := time.Now().Format("15:04:05")
 	finalName := fmt.Sprintf("%d_%s", userid, filename)
 	time := time.Now().Format("2006/01/02")
 	path := fmt.Sprintf("%v/%v", time, finalName)
+	savepath := fmt.Sprintf("video/%v%v", path, filepath.Ext(data.Filename))
 
-	token := util.NewUpToken(path)
+	token := util.NewUpToken(path, savepath)
 	err := util.PutFile(token, path, data)
 	if err != nil {
 		log.Fatal("文件上传失败", err)
 	}
 
-	playurl := storage.MakePublicURL("http://ricmk4ybq.hn-bkt.clouddn.com", path)
+	playurl := storage.MakePublicURL("http://ricmk4ybq.hn-bkt.clouddn.com", savepath)
 
 	//视频抽帧
-	coverurl := "http://fake.com/qiniu/notify/"
+	coverurl := fmt.Sprintf("http://ricmk4ybq.hn-bkt.clouddn.com/image/%v.jpg", path)
 	return playurl, coverurl, nil
 }
 

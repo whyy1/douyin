@@ -14,9 +14,9 @@ func main() {
 	setupLogs()
 
 	if err := r.Run(); err != nil {
-		fmt.Println("startup service failed, err:", err)
+		log.Println("startup service failed, err:", err)
 	}
-	fmt.Println("服务启动成功！")
+	log.Println("服务启动成功！")
 }
 
 func setupRouter() *gin.Engine {

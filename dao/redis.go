@@ -24,16 +24,15 @@ func init() {
 			return redis.Dial("tcp", config.REDIS_SOURCE)
 		},
 	}
-	fmt.Println("Redis链接成功！")
 }
 
 func SetToken(id int64, token string) {
 	c := pool.Get()
 	defer c.Close()
-	fmt.Println(id, "   ", token)
 	_, err := c.Do("Set", id, token)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("redis:设置token错误，id", id, " faild :", err)
+		fmt.Println("redis未连接")
 		return
 	}
 }
@@ -42,9 +41,9 @@ func GetToken(id int64) (string, error) {
 	defer c.Close()
 	token, err := redis.String(c.Do("Get", id))
 	if err != nil {
-		fmt.Println("get ", id, " faild :", err)
+		fmt.Println("redis:获取token错误，id", id, " faild :", err)
+		fmt.Println("redis未连接")
 		return "", err
 	}
-	//fmt.Println(id, "   ", token)
 	return token, nil
 }

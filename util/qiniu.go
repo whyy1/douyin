@@ -20,17 +20,18 @@ type MyPutRet struct {
 	Name   string
 }
 
-func NewUpToken(filename string) string {
+func NewUpToken(path string, savepath string) string {
 	config, err := config.LoadConfig(".")
 	if err != nil {
 		log.Fatal("Cannot load config: ", err)
 	}
-	data := []byte(fmt.Sprintf("%v:image.jpg", config.QN_BUCKET))
-	bs64 := base64.URLEncoding.EncodeToString(data)
+
+	data := []byte(fmt.Sprintf("%v:image/%v.jpg", config.QN_BUCKET, path))
+	bs64 := base64.StdEncoding.EncodeToString(data)
 	putPolicy := storage.PutPolicy{
 		Scope:               config.QN_BUCKET,
 		ForceSaveKey:        true,
-		SaveKey:             filename,
+		SaveKey:             savepath,
 		PersistentOps:       fmt.Sprintf("vframe/jpg/offset/0|saveas/%v", bs64),
 		PersistentNotifyURL: "http://fake.com/qiniu/notify",
 	}
