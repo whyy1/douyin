@@ -21,8 +21,8 @@ func FollowList(userid int64, authorid int64) []User {
 	follow := []int64{}
 	arr := []int64{}
 
-	db.Debug().Table("follows").Select("follow_id").Where("follower_id = ?", userid).Scan(&follow)
-	db.Debug().Table("follows").Select("follow_id").Where("follower_id= ?", authorid).Scan(&arr)
+	db.Table("follows").Select("follow_id").Where("follower_id = ?", userid).Scan(&follow)
+	db.Table("follows").Select("follow_id").Where("follower_id= ?", authorid).Scan(&arr)
 	db.Where("id IN ?", arr).Find(&followerlist)
 
 	for i := range followerlist {
@@ -41,8 +41,8 @@ func FollowerList(userid int64, authorid int64) []User {
 	follow := []int64{}
 	arr := []int64{}
 
-	db.Debug().Table("follows").Select("follow_id").Where("follower_id = ?", userid).Scan(&follow)
-	db.Debug().Table("follows").Select("follower_id").Where("follow_id= ?", authorid).Scan(&arr)
+	db.Table("follows").Select("follow_id").Where("follower_id = ?", userid).Scan(&follow)
+	db.Table("follows").Select("follower_id").Where("follow_id= ?", authorid).Scan(&arr)
 	db.Where("id IN ?", arr).Find(&followerlist)
 
 	for i := range followerlist {

@@ -45,8 +45,6 @@ func QueryToken(tokenString string) (int64, bool) {
 	if err != nil || !token.Valid {
 		return 0, false
 	}
-	//fmt.Println(claims.UserId)
-	//fmt.Println(token)
 	return claims.UserId, true
 }
 

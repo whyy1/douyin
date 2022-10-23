@@ -1,7 +1,6 @@
 package dao
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/garyburd/redigo/redis"
@@ -31,8 +30,8 @@ func SetToken(id int64, token string) {
 	defer c.Close()
 	_, err := c.Do("Set", id, token)
 	if err != nil {
-		fmt.Println("redis:设置token错误，id", id, " faild :", err)
-		fmt.Println("redis未连接")
+		log.Println("redis:设置token错误，id", id, " faild :", err)
+		log.Println("redis未连接")
 		return
 	}
 }
@@ -41,8 +40,8 @@ func GetToken(id int64) (string, error) {
 	defer c.Close()
 	token, err := redis.String(c.Do("Get", id))
 	if err != nil {
-		fmt.Println("redis:获取token错误，id", id, " faild :", err)
-		fmt.Println("redis未连接")
+		log.Println("redis:获取token错误，id", id, " faild :", err)
+		log.Println("redis未连接")
 		return "", err
 	}
 	return token, nil

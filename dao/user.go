@@ -78,8 +78,10 @@ func UserInfo(userid int64) (User, error) {
 		Id: userid,
 	}
 	//	db.First(&user, "id =?", userid)
-	err := db.First(&user, "id =?", user.Id).Error
-	return user, err
+	if err := db.First(&user, "id =?", user.Id).Error; err != nil {
+		return user, err
+	}
+	return user, nil
 }
 
 //传入token返回

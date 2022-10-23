@@ -58,9 +58,9 @@ func UserInfo(c *gin.Context) {
 
 	userid, _ := strconv.ParseInt(c.Query("user_id"), 10, 64)
 
-	if user, err := service.GetUser(userid); err == nil {
-		service.ToUserResponse(c, service.Ok("用户登录成功"), user)
-	} else {
+	if user, err := service.GetUser(userid); err != nil {
 		service.ToResponse(c, service.Err("用户不存在"))
+	} else {
+		service.ToUserResponse(c, service.Ok("用户登录成功"), user)
 	}
 }

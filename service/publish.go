@@ -59,10 +59,10 @@ func PublishVideo(data *multipart.FileHeader, userid int64) (string, string, err
 		log.Fatal("文件上传失败", err)
 	}
 
-	playurl := storage.MakePublicURL("http://ricmk4ybq.hn-bkt.clouddn.com", savepath)
+	playurl := storage.MakePublicURL("http://cdn.whyy1.top", savepath)
 
 	//视频抽帧
-	coverurl := fmt.Sprintf("http://ricmk4ybq.hn-bkt.clouddn.com/image/%v.jpg", path)
+	coverurl := fmt.Sprintf("http://cdn.whyy1.top/image/%v.jpg", path)
 	return playurl, coverurl, nil
 }
 

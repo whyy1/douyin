@@ -53,7 +53,7 @@ func RegisterUser(parameter User) (dao.User, error) {
 		err := errors.New("用户名已经存在")
 		return user, err
 	}
-	_, err := dao.Register(user)
+	user, err := dao.Register(user)
 	return user, err
 }
 

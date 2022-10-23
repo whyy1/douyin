@@ -44,11 +44,11 @@ func PutFile(upToken string, path string, data *multipart.FileHeader) error {
 
 	cfg := storage.Config{}
 	// 空间对应的机房
-	//cfg.Zone = &storage.ZoneHuadong
+	cfg.Zone = &storage.ZoneBeimei
 	// 是否使用https域名
 	//cfg.UseHTTPS = true
 	// 上传是否使用CDN上传加速
-	//cfg.UseCdnDomains = false
+	cfg.UseCdnDomains = true
 	formUploader := storage.NewFormUploader(&cfg)
 	file, _ := data.Open()
 
@@ -62,11 +62,9 @@ func PutFile(upToken string, path string, data *multipart.FileHeader) error {
 	}
 	err := formUploader.PutWithoutKey(context.Background(), &ret, upToken, file, data.Size, &putExtra)
 	if err != nil {
-		fmt.Println(err)
-		fmt.Println("上传失败")
+		log.Println("视频上传失败，错误为：", err)
 		return err
 	}
-	fmt.Println(ret.Bucket, ret.Key, ret.Fsize, ret.Hash, ret.Name)
-	fmt.Println("上传失败")
+	log.Println(ret.Bucket, ret.Key, ret.Fsize, ret.Hash, ret.Name)
 	return nil
 }
