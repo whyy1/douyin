@@ -1,9 +1,10 @@
 # douyin
 
-由 base 改进过来的后端抖音项目
+用Go的后端抖音项目
 
 项目作者： [whyy1](https://github.com/whyy1) </br>
 
+Android端APP:[下载地址](http://cdn.whyy1.top/%E6%8A%96%E5%A3%B0.apk)</br>
 ### Quickly Start
 
 pre-dependencies
@@ -18,8 +19,12 @@ brew install golang-migrate
 - GIN
 - GORM
 - MYSQL
-- 阿里云 OSS</br>
+- Redis
+- 七牛云 Kodo
+- Docker</br>
   演示文档地址:[演示文档](https://aio03fkuce.feishu.cn/file/boxcnwasGHVQCXHQX1HMH5tYnNd)</br>
+
+  
 
 ## 项目说明
 
@@ -32,3 +37,6 @@ brew install golang-migrate
 - Dao 层主要是做数据持久层的工作，与数据库有关的操作都在这里。
 - util 中存放了 OSS 对象存储的一些工具类
   项目细节说明
+
+## APP已知bug！！！
+- 视频文件上传选择时，不能够点进视频观看，只能通过圆点选择
