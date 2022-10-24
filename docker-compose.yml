@@ -12,7 +12,7 @@ services:
       MYSQL_ROOT_PASSWORD: douyin
     volumes:
       - ./volumes/mysql/data/:/var/lib/mysql/
-#      - ./mysql/:/etc/mysql/ 
+#     - ./volumes/mysql/:/etc/mysql/ 
 
   redis:
     image: redis:5.0.13
@@ -24,8 +24,8 @@ services:
     ports: #将容器端口暴露
       - "6379:6379"
   api:
-    #image: "${IMAGE_URI}"
-    image: registry.cn-hangzhou.aliyuncs.com/whyy1/douyin:aa65c31428616f4de79e04a892e3cd01cb1e28c1
+    image: "${IMAGE_URI}"
+    #image: registry.cn-hangzhou.aliyuncs.com/whyy1/douyin:aa65c31428616f4de79e04a892e3cd01cb1e28c1
     #build: .
     ports: #将容器端口暴露
       - "8080:8080"

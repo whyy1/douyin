@@ -70,6 +70,7 @@ func Login(user User) (User, error) {
 	token := jwt.GetToken(user.Id)
 	SetToken(user.Id, user.Token)
 	db.First(&user, "id = ?", user.Id).Updates(User{Token: token})
+	user.Token = token
 	return user, err
 }
 
